@@ -79,35 +79,98 @@ def queue():
 	print q.array()
 
 def bubbleSort(words):
+	random.shuffle(words)
 	print '\nbubble sort:'
 	s = Sort()
 	words = s.bubbleSort(words)
 	# print words
 
 def selectSort(words):
+	random.shuffle(words)
 	print '\nselect sort:'
 	s = Sort()
 	words = s.selectSort(words)
 	# print words
 
+def mergeSort(words):
+	random.shuffle(words)
+	print '\nmergesort sort:'
+	s = Sort()
+	words = s.mergeSort(words)
+	# print words
+
+def quickSort(words):
+	random.shuffle(words)
+	print '\nquicksort sort:'
+	s = Sort()
+	words = s.quickSort(words)
+	# print words
+
+def binaryTree(words):
+	random.shuffle(words)
+	print '\nbinary tree:'
+	words = BinaryTree(words)
+	# print words
+	# print words.array()
+	# print words
+	return words.array()
+
+def checkSort(words):
+	n = 0
+	while n < len(words)-1:
+		this = words[n]
+		next = words[n+1]
+		if this > next:
+			print 'ERROR: '+this+' > '+next
+		n+=1
+
+def groupAnagrams(words):
+	random.shuffle(words)
+	print '\ngroup anagrams:'
+	s = Sort()
+	words = s.groupAnagrams(words)
+
 def main():
 
 	# words = list(alphabet)
-	words = getWords()[:1000]
+	words = getWords()
+	print 'Words: '+str(len(words))
 	random.shuffle(words)
 
 	# linkedList()
 
 	# stack()
 
-	# queue()
+	#
+	# Sorting
+	#
 	start = datetime.datetime.now()
-	bubbleSort(words)
+	words = groupAnagrams(words)
 	printTime(start)
 
-	start = datetime.datetime.now()
-	selectSort(words)
-	printTime(start)
+	# start = datetime.datetime.now()
+	# words = binaryTree(words)
+	# printTime(start)
+
+	# checkSort(words)
+
+	# start = datetime.datetime.now()
+	# quickSort(words)
+	# printTime(start)
+
+	# start = datetime.datetime.now()
+	# mergeSort(words)
+	# printTime(start)
+
+	# start = datetime.datetime.now()
+	# selectSort(words)
+	# printTime(start)
+
+	# start = datetime.datetime.now()
+	# bubbleSort(words)
+	# printTime(start)
+
+
 
 if __name__ == '__main__':
 	main()

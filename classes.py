@@ -171,7 +171,59 @@ class Queue():
 			self.next = None
 			self.data = d
 
+class BinaryTree():
+
+	def __init__(self, data=[]):
+		self.head = None
+
+		for d in data:
+			self.add(d, self.head)
+
+	class Node():
+
+		def __init__(self, d):
+			self.data = d
+			self.left = None
+			self.right = None
+
+	def add(self, d, head):
+
+		# if the tree is empty, add this node as the head
+		if not head and not self.head:
+			self.head = self.Node(d)
+			return
+
+		elif not head:
+			head = self.head
+
+		if d < head.data:
+			# add to the left
+			if not head.left:
+				head.left = self.Node(d)
+			else:
+				self.add(d, head.left)
+
+		else:
+			# add to the rigjht
+			if not head.right:
+				head.right = self.Node(d)
+			else:
+				self.add(d, head.right)
+
+	def array(self, head=False):
+
+		if head == False:
+			head = self.head
+
+		if head == None:
+			return []
+
+		left = self.array(head.left)
+		right = self.array(head.right)
+		return left + [head.data] + right
+
 class Sort():
+
 	def __init__(self, data=[]):
 		self.data = data
 
@@ -227,6 +279,32 @@ class Sort():
 
 
 	def mergeSort(self, data=[]):
+
+		def merge(a, b):
+
+			new = []
+
+			while a or b:
+
+				if a and b:
+
+					if a[0] < b[0]:
+						new.append(a[0])
+						del a[0]
+					else:
+						new.append(b[0])
+						del b[0]
+
+				elif a:
+					new.append(a[0])
+					del a[0]
+
+				else:
+					new.append(b[0])
+					del b[0]
+
+			return new
+
 		l = len(data)
 
 		if not l:
@@ -237,35 +315,84 @@ class Sort():
 
 		elif l == 2:
 			if data[0] > data[1]:
-				return [data[1], data[0]]
+				data = [data[1], data[0]]
 			return data
 
-		else:
-			m = l/2
+		m = l/2
 
-			a = mergeSort(data[0:m])
-			b = mergeSort(data[m:])
+		a = data[0:m]
+		b = data[m:]
 
-		def merge(a, b):
+		a = self.mergeSort(a)
+		b = self.mergeSort(b)
 
-			new = []
+		new = merge(a, b)
 
-			ai = 0
-			bi = 0
+		return new
 
-			while ai <= len(a) and bi <= len(b):
+	def quickSort(self, data=[]):
 
-				if a[ai] < b[bi]:
-					new.append(a[ai])
-					ai+=1
-				else:
-					new.append(b[bi])
-					bi+=1
+		if not data:
+			return data
+
+		elif len(data) == 1:
+			return data
+
+		# select a pivot entry
+		p = len(data)/2
+
+		pivot = data[p]
+
+		left = []
+		right = [pivot]
+
+		# put into buckets
+		n = 0
+		while n < len(data):
+
+			if n == p:
+				True
+			elif data[n] < pivot:
+				left.append(data[n])
+			else:
+				right.append(data[n])
+			n+=1
+
+		left =  self.quickSort(left)
+		right = self.quickSort(right)
+
+		new = []
+		for i in left:
+			new.append(i)
+		for i in right:
+			new.append(i)
+
+		return left+right
+
+	def groupAnagrams(self, data=[]):
+
+		def alphabetize(word):
+			return ''.join(sorted(word))
 
 
-		# merge
+		anagrams = {}
 
+		for d in data:
+			a = alphabetize(d)
+			if a in anagrams:
+				anagrams[a].append(d)
+			else:
+				anagrams[a] = [d]
 
+		last = None
+		for w in sorted(anagrams, key=lambda x: [len(anagrams[x]), len(x)] , reverse=True):
+			length = len(anagrams[w])
+			words = sorted(anagrams[w])
+			if length != last:
+				print '\nWords: '+str(length)+':'
+				last = length
+			if length > 1:
+				print words[0]+' ('+str(length)+'): '+str(words)
 
 
 
